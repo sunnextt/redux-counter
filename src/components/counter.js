@@ -1,6 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
+
 const Counter = ({ value, onIncrement, onIncrementAsync, onDecrement, onIncrementIfOdd }) => (
   <p>
     Clicked: {value} times <button onClick={onIncrement}>+</button> <button onClick={onDecrement}>-</button>

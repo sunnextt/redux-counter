@@ -12,8 +12,8 @@ export function* incrementAsync() {
 }
 
 export default function* rootSaga() {
-  yield all[
-        call(helloSaga)
-    ]
-  yield takeEvery('INCREMENT_ASYNC', incrementAsync)
+  yield all([
+        call(helloSaga),
+        takeEvery('INCREMENT_ASYNC', incrementAsync)
+    ])
 }
