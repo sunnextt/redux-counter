@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux';
 
-import counter from './reducers/counterSaga';
+import { counter, countdown } from './reducers/counterSaga';
 
-export const rootReducer = combineReducers({
-counter
-});
+
+const rootReducer = combineReducers({
+  countdown,
+  counter,
+})
+
+export default rootReducer

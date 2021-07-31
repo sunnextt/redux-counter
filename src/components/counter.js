@@ -1,21 +1,40 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
+import { INCREMENT, DECREMENT, INCREMENT_IF_ODD, INCREMENT_ASYNC, CANCEL_INCREMENT_ASYNC } from '../redux/actionTypes'
 
-const Counter = ({ value, onIncrement, onIncrementAsync, onDecrement, onIncrementIfOdd }) => (
-  <p>
-    Clicked: {value} times <button onClick={onIncrement}>+</button> <button onClick={onDecrement}>-</button>
-    <button onClick={onIncrementIfOdd}>Increment if odd</button>
-    <button onClick={onIncrementAsync}>Increment async</button>
-  </p>
-)
+function Counter({ counter, countdown, dispatch }) {
+  const action = (type, value) => () => dispatch({ type, value })
 
-Counter.propTypes = {
-  value: PropTypes.number.isRequired,
-  onIncrement: PropTypes.func.isRequired,
-  onDecrement: PropTypes.func.isRequired,
-  onIncrementAsync: PropTypes.func.isRequired,
-  onIncrementIfOdd: PropTypes.func.isRequired,
+  return (
+    <div>
+      Clicked: {counter} times <button onClick={action(INCREMENT)}>+</button>{' '}
+      <button onClick={action(DECREMENT)}>-</button>{' '}
+      <button onClick={action(INCREMENT_IF_ODD)}>Increment if odd</button>{' '}
+      <button
+        onClick={countdown ? action(CANCEL_INCREMENT_ASYNC) : action(INCREMENT_ASYNC, 5)}
+        style={{ color: countdown ? 'red' : 'black' }}
+      >
+        {countdown ? `Cancel increment (${countdown})` : 'increment after 5s'}
+      </button>
+    </div>
+  )
 }
 
-export default Counter
+Counter.propTypes = {
+  // dispatch actions
+  dispatch: PropTypes.func.isRequired,
+  // state
+  counter: PropTypes.number.isRequired,
+  countdown: PropTypes.number.isRequired,
+}
+
+function mapStateToProps(state) {
+  return {
+    counter: state.counter,
+    countdown: state.countdown,
+  }
+}
+
+export default connect(mapStateToProps)(Counter)
