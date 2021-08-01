@@ -47,8 +47,6 @@ export function* watchIncrementAsync() {
   try {
     while (true) {
       const action = yield take(INCREMENT_ASYNC)
-      // starts a 'Race' between an async increment and a user cancel action
-      // if user cancel action wins, the incrementAsync will be cancelled automatically
       yield race([call(incrementAsync, action), take(CANCEL_INCREMENT_ASYNC)])
     }
   } finally {
