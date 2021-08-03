@@ -55,5 +55,5 @@ export function* watchIncrementAsync() {
 }
 
 export default function* rootSaga() {
-  yield call(watchIncrementAsync)
+  yield fork(watchIncrementAsync)
 }
